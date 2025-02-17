@@ -16,6 +16,7 @@ import { useState } from "react"
 import toast from "react-hot-toast"
 import { z } from "zod"
 import { User } from "./register-form"
+import Link from "next/link"
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -169,9 +170,9 @@ export function LoginForm({
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="/" className="underline underline-offset-4">
+                <Link href="/register" className="underline underline-offset-4">
                   Sign up
-                </a>
+                </Link>
               </div>
             </div>
           </form>

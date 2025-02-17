@@ -38,7 +38,7 @@ const RegisterForm = ({
     name: "",
     password: "",
   })
-  const [register, { isLoading,data,status }] = useRegisterMutation()
+  const [register, { isLoading }] = useRegisterMutation()
   const router = useRouter()
 
   const [errors, setErrors] = useState<Partial<Record<keyof User, string>>>({})
