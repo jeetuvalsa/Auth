@@ -1,10 +1,7 @@
-
-import RegisterPage from "./register/page"
+import RegisterPage from "./register/page";
 
 const Home = () => {
-  return (
-    <RegisterPage />
-  )
-}
+  return <RegisterPage />;
+};
 
-export default Home
+export default Home;

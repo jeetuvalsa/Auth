@@ -1,25 +1,27 @@
-"use client"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
+"use client";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 import { z } from "zod";
 import { toast } from "react-hot-toast";
 import { useRegisterMutation } from "@/store/services/auth";
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 
 const registerSchema = z.object({
   name: z.string().min(3, { message: "Name must be at least 3 characters" }),
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters" }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters" }),
 });
 
 export interface User {
@@ -32,17 +34,15 @@ const RegisterForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
-
   const [formData, setFormData] = useState<User>({
     email: "",
     name: "",
     password: "",
-  })
-  const [register, { isLoading }] = useRegisterMutation()
-  const router = useRouter()
+  });
+  const [register, { isLoading }] = useRegisterMutation();
+  const router = useRouter();
 
-  const [errors, setErrors] = useState<Partial<Record<keyof User, string>>>({})
-
+  const [errors, setErrors] = useState<Partial<Record<keyof User, string>>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -50,52 +50,52 @@ const RegisterForm = ({
 
     // Create a partial schema for the specific field
     const fieldSchema = z.object({
-      [name]: registerSchema.shape[name as keyof User]
+      [name]: registerSchema.shape[name as keyof User],
     });
 
     // Validate just this field
     const result = fieldSchema.safeParse({ [name]: value });
-    
+
     if (result.success) {
       // Clear error for this field if validation passes
-      setErrors(prev => ({ ...prev, [name]: "" }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     } else {
       // Update error for this field if validation fails
       const fieldError = result.error.flatten().fieldErrors[name]?.[0] || "";
-      setErrors(prev => ({ ...prev, [name]: fieldError }));
+      setErrors((prev) => ({ ...prev, [name]: fieldError }));
     }
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const result = registerSchema.safeParse(formData)
+      const result = registerSchema.safeParse(formData);
       if (!result.success) {
         // Convert Zod errors into a more usable format
-        const fieldErrors = result.error.flatten().fieldErrors
+        const fieldErrors = result.error.flatten().fieldErrors;
         setErrors({
           name: fieldErrors.name?.[0] || "",
           email: fieldErrors.email?.[0] || "",
           password: fieldErrors.password?.[0] || "",
-        })
-        toast.error(result.error.flatten().fieldErrors.name?.[0] || "")
-        return
+        });
+        toast.error(result.error.flatten().fieldErrors.name?.[0] || "");
+        return;
       }
-      
-      setErrors({})
-      const response = await register(formData).unwrap()
+
+      setErrors({});
+      const response = await register(formData).unwrap();
 
       if (response.status === 201) {
-        toast.success(response.message)
-        router.push("/login")
+        toast.success(response.message);
+        router.push("/login");
       } else {
-        toast.error(response.message)
+        toast.error(response.message);
       }
     } catch (error) {
-      console.error('Registration error:', error)
-      toast.error('An error occurred during registration. Please try again.')
+      console.error("Registration error:", error);
+      toast.error("An error occurred during registration. Please try again.");
     }
-  }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -135,7 +135,7 @@ const RegisterForm = ({
                 </span>
               </div>
               <div className="grid gap-6">
-              <div className="grid gap-2">
+                <div className="grid gap-2">
                   <Label htmlFor="name">Name</Label>
                   <Input
                     id="name"
@@ -169,7 +169,15 @@ const RegisterForm = ({
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
                   </div>
-                  <Input id="password" type="password" required placeholder="password" name="password" value={formData.password} onChange={handleChange} />
+                  <Input
+                    id="password"
+                    type="password"
+                    required
+                    placeholder="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
                   {errors.password && (
                     <p className="text-sm text-red-500">{errors.password}</p>
                   )}
@@ -215,7 +223,7 @@ const RegisterForm = ({
         </CardContent>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default RegisterForm
+export default RegisterForm;
