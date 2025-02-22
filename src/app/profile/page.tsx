@@ -35,7 +35,7 @@ export default function ProfilePage() {
         router.push("/login");
       }
     }
-  }, [error]);
+  }, [error,router]);
 
   if (isLoading) {
     return (

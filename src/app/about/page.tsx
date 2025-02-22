@@ -33,7 +33,7 @@ export default function AboutPage() {
       toast.error("Failed to fetch user data. Please log in again.");
       router.push("/login");
     }
-  }, [error]);
+  }, [error, router]);
 
   if (isLoading) {
     return (
@@ -59,7 +59,9 @@ export default function AboutPage() {
           </h4>
           <div className="flex justify-between">
             <Button onClick={handleLogout}>Logout</Button>
-            <Button variant="outline" onClick={() => router.push("/profile")}>Profile</Button>
+            <Button variant="outline" onClick={() => router.push("/profile")}>
+              Profile
+            </Button>
           </div>
         </CardContent>
       </Card>

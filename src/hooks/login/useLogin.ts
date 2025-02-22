@@ -59,10 +59,19 @@ export const useLogin = () => {
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
+    } catch {
       toast.error("Login failed. Please check your credentials.");
     }
   };
 
-  return { login, isLoading, formData, errors, handleChange, handleSubmit, showPassword, setShowPassword };
+  return {
+    login,
+    isLoading,
+    formData,
+    errors,
+    handleChange,
+    handleSubmit,
+    showPassword,
+    setShowPassword,
+  };
 };

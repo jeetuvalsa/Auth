@@ -10,7 +10,6 @@ const REFRESH_INTERVAL = 2 * 60 * 1000; // 2 minutes in milliseconds
 export function useRefreshToken() {
   const [refreshToken] = useRefreshTokenMutation();
   const router = useRouter();
-  
 
   const handleTokenRefresh = async () => {
     try {
@@ -22,7 +21,7 @@ export function useRefreshToken() {
         return true;
       }
       return false;
-    } catch (error) {
+    } catch {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("userId");

@@ -40,7 +40,9 @@ const useRegister = () => {
           const fieldName = err.path[0] as keyof typeof errors;
           newErrors[fieldName] = err.message;
         });
-        setErrors(newErrors as { name: string; email: string; password: string });
+        setErrors(
+          newErrors as { name: string; email: string; password: string }
+        );
       }
       return false;
     }
@@ -61,12 +63,20 @@ const useRegister = () => {
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
+    } catch {
       toast.error("Registration failed. Please try again.");
     }
   };
 
-  return { isLoading, formData, errors, handleChange, handleSubmit, showPassword, setShowPassword };
+  return {
+    isLoading,
+    formData,
+    errors,
+    handleChange,
+    handleSubmit,
+    showPassword,
+    setShowPassword,
+  };
 };
 
 export default useRegister;
