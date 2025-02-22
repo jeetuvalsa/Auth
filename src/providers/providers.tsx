@@ -1,13 +1,14 @@
 "use client";
 
-import { AuthProvider } from "@/contexts/auth-context";
-import { store } from "@/store/app";
 import { Provider } from "react-redux";
+import { store } from "@/store/store";
+import { Toaster } from "react-hot-toast";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
-      <AuthProvider>{children}</AuthProvider>
+      <Toaster position="top-center" />
+      {children}
     </Provider>
   );
 }
