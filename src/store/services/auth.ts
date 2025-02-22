@@ -22,7 +22,7 @@ interface AuthResponse {
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5500/api/users/",
+    baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("accessToken");
       if (token) {

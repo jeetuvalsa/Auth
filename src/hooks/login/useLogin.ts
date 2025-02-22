@@ -2,6 +2,7 @@ import { useLoginMutation } from "@/store/services/auth";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -13,7 +14,7 @@ export const useLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -54,7 +55,7 @@ export const useLogin = () => {
         localStorage.setItem("expiresIn", response.user.expiresIn.toString());
         localStorage.setItem("userId", response.user.id);
         toast.success("Login successful!");
-        window.location.href = "/profile";
+        router.push("/profile");
       } else {
         toast.error(response.message);
       }
